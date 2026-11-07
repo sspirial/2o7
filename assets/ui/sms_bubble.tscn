@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[node name="SmsBubble" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 100)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SenderHeader" type="Label" parent="VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.169, 0.2, 0.125, 1)
+theme_override_font_sizes/font_size = 18
+text = "From: Mama Achieng'"
+
+[node name="MessageBody" type="Label" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.169, 0.2, 0.125, 1)
+theme_override_font_sizes/font_size = 16
+text = "Asante sana kwa msaada leo..."
+autowrap_mode = 2

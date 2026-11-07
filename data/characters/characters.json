@@ -1,0 +1,40 @@
+{
+  "player": {
+    "id": "player",
+    "default_name_male": "Baraka",
+    "default_name_female": "Neema",
+    "age": 18,
+    "description": "KCSE candidate at Mwangaza Secondary",
+    "expressions": ["neutral", "happy", "worried", "determined", "surprised"]
+  },
+  "jabali": {
+    "id": "jabali",
+    "name": "Jabali",
+    "full_name": "Wafula Simiyu",
+    "age": 24,
+    "role": "Makanga (conductor) of Msafiri",
+    "want": "Loves being first with news",
+    "flaw": "Forwards without checking",
+    "expressions": ["neutral", "excited", "laughing", "worried", "proud"],
+    "voice_notes": "Loud, theatrical, uses lots of Sheng, calls out stops dramatically"
+  },
+  "mama_achieng": {
+    "id": "mama_achieng",
+    "name": "Mama Achieng'",
+    "age": 46,
+    "role": "Kiosk owner, widow, M-Pesa agent",
+    "want": "Build her business, feed her children",
+    "flaw": "Pride — hard to admit she doesn't understand something",
+    "expressions": ["neutral", "sceptical", "proud", "laughing", "grateful"],
+    "voice_notes": "Direct, no-nonsense, warm underneath. Occasional Dholuo word when emotional."
+  },
+  "mum": {
+    "id": "mum",
+    "name": "Mum",
+    "age": 44,
+    "role": "Mitumba trader at Gikomba",
+    "want": "Fees paid, family safe",
+    "expressions": ["neutral", "worried", "loving", "tired"],
+    "voice_notes": "Quiet strength, swallows worries, practical"
+  }
+}

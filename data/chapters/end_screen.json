@@ -1,0 +1,125 @@
+{
+  "chapter_id": "end_screen",
+  "title": "End of Prototype",
+  "nodes": [
+    {
+      "node_id": "end_recap_intro",
+      "speaker": null,
+      "text": "DECEMBER 2006. Nairobi.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "end_recap_matatu"
+    },
+    {
+      "node_id": "end_recap_matatu",
+      "speaker": null,
+      "text": "[SYSTEM: RECAP matatu_choice]",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": null,
+      "branches": {
+        "listen": "recap_matatu_listen",
+        "join": "recap_matatu_join",
+        "quiet": "recap_matatu_quiet"
+      }
+    },
+    {
+      "node_id": "recap_matatu_listen",
+      "speaker": null,
+      "text": "On Msafiri, you listened. You watched the city argue about a future it didn't understand yet. Sometimes silence says more than noise.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "end_recap_kiosk"
+    },
+    {
+      "node_id": "recap_matatu_join",
+      "speaker": null,
+      "text": "On Msafiri, you spoke up. You jumped into the debate and held your ground. In a city of loud voices, yours found its place.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "end_recap_kiosk"
+    },
+    {
+      "node_id": "recap_matatu_quiet",
+      "speaker": null,
+      "text": "On Msafiri, you chose your own world. Earphones in, city out. Not every moment needs your voice — some just need your eyes.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "end_recap_kiosk"
+    },
+    {
+      "node_id": "end_recap_kiosk",
+      "speaker": null,
+      "text": "[SYSTEM: RECAP kiosk_choice]",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": null,
+      "branches": {
+        "help": "recap_kiosk_help",
+        "tease": "recap_kiosk_tease"
+      }
+    },
+    {
+      "node_id": "recap_kiosk_help",
+      "speaker": null,
+      "text": "At the kiosk, you helped Mama Achieng' find her way. Patience is a kind of courage. She won't forget it.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "end_closing"
+    },
+    {
+      "node_id": "recap_kiosk_tease",
+      "speaker": null,
+      "text": "At the kiosk, you teased Mama Achieng' — and she rose to the challenge. Sometimes a push is what people need. She'll remember that too.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "end_closing"
+    },
+    {
+      "node_id": "end_closing",
+      "speaker": null,
+      "text": "M-Pesa is live. The election is a year away. The estate is humming with life, laughter, and a hundred small arguments that don't mean much yet.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "end_tagline"
+    },
+    {
+      "node_id": "end_tagline",
+      "speaker": null,
+      "text": "Kila stage ina stori. Stage inayofuata...",
+      "text_sw": null,
+      "gloss": "Every stage has a story. The next stage...",
+      "expression": null,
+      "choices": null,
+      "next": "end_tbc"
+    },
+    {
+      "node_id": "end_tbc",
+      "speaker": null,
+      "text": "TO BE CONTINUED",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": null
+    }
+  ]
+}

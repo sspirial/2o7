@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "description": "Archive/Fact Card schema for 2o7. Archive cards are unlockable historical context pieces that help the player understand the real events behind the game.",
+  "archive_schema": {
+    "id": {
+      "type": "string",
+      "description": "Unique archive card identifier, e.g. ARC_001",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "description": "Card title — short, punchy",
+      "required": true
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["High", "Medium", "Contested"],
+      "description": "How well-established the historical fact is. High = well-documented, Medium = some debate, Contested = actively disputed",
+      "required": true
+    },
+    "body": {
+      "type": "string",
+      "description": "The main text of the card — accessible, engaging, 2-4 paragraphs",
+      "required": true
+    },
+    "sources": {
+      "type": "array",
+      "items": "string",
+      "description": "Real-world sources for the information",
+      "required": true
+    },
+    "unlock_condition": {
+      "type": "string",
+      "description": "What the player must do to unlock this card — a scene, a choice, a rumour verified, etc.",
+      "required": true
+    },
+    "related_characters": {
+      "type": "array",
+      "items": "string",
+      "description": "Character IDs connected to this archive card",
+      "required": false
+    },
+    "era": {
+      "type": "string",
+      "description": "Time period the card covers",
+      "required": false
+    }
+  },
+  "archives": [
+    {
+      "id": "ARC_001",
+      "title": "M-Pesa Launch",
+      "confidence": "High",
+      "body": "In March 2007, Safaricom launched M-Pesa — a mobile money transfer service that would change Kenya forever. The idea was simple: send money using your phone, no bank account needed.\n\nAt first, people were sceptical. Cash was king. Banks were for the rich. But M-Pesa solved a real problem: millions of Kenyans in cities needed to send money home to family in rural areas. Before M-Pesa, you'd hand cash to a bus driver heading upcountry and pray it arrived.\n\nWithin a year, M-Pesa had over a million users. Within a decade, it processed more transactions than Western Union did globally. It turned kiosk owners into bankers and phones into wallets.\n\nKenya didn't just adopt mobile money — it invented the model the world would copy.",
+      "sources": [
+        "Safaricom Annual Report 2007",
+        "The Economist, 'Why does Kenya lead the world in mobile money?' (2015)",
+        "GSMA Mobile Money Programme reports"
+      ],
+      "unlock_condition": "Complete the M-Pesa kiosk scene (ch1_kiosk)",
+      "related_characters": ["mama_achieng"],
+      "era": "2007"
+    },
+    {
+      "id": "ARC_002",
+      "title": "Matatu Culture",
+      "confidence": "High",
+      "body": "Matatus are more than transport — they're Nairobi's heartbeat. These privately owned minibuses are cultural statements on wheels: hand-painted murals of musicians, footballers, and movie stars; booming sound systems; LED lighting rigs that would shame a nightclub.\n\nThe word 'matatu' likely comes from 'mang'otore matatu' — the original three-cent fare. Each matatu has a driver and a conductor (makanga) who collects fares, calls out stops, and performs feats of acrobatics hanging from the doorframe.\n\nMatatus have their own names, their own followings, their own rivalries. The Nairobi routes are legendary — and so is the driving. The government has tried to regulate them for decades, with mixed results. Love them or fear them, matatus ARE Nairobi.\n\nThe matatu industry is one of Kenya's largest informal employers, supporting hundreds of thousands of families.",
+      "sources": [
+        "Mutongi, K. 'Matatu: A History of Popular Transportation in Nairobi' (2017)",
+        "National Museums of Kenya Matatu Exhibition",
+        "Daily Nation archives"
+      ],
+      "unlock_condition": "Complete the matatu ride (ch1_matatu_ride)",
+      "related_characters": ["jabali"],
+      "era": "1960s–present"
+    }
+  ]
+}

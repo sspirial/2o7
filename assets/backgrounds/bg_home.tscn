@@ -1,0 +1,79 @@
+[gd_scene format=3]
+
+[node name="BgHome" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Base" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.24, 0.2, 0.16, 1)
+
+[node name="WallWarmth" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 750.0
+grow_horizontal = 2
+color = Color(0.72, 0.48, 0.22, 0.35)
+
+[node name="Curtain" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 60.0
+offset_top = 80.0
+offset_right = 260.0
+offset_bottom = 420.0
+color = Color(0.85, 0.2, 0.2, 0.5)
+
+[node name="Table" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -420.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.18, 0.12, 0.08, 1)
+
+[node name="Calendar" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 120.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.95, 0.94, 0.9, 1)
+
+[node name="CalendarLabel" type="Label" parent="Calendar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 18
+text = "DECEMBER
+2006
+---
+MWANGAZA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LocationTag" type="Label" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 250.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 0.769, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "📍 Nyumbani (Home)"

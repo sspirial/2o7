@@ -1,0 +1,116 @@
+{
+  "chapter_id": "ch1_phone",
+  "title": "Chapter 1: Phone",
+  "description": "SMS events that play after the kiosk scene. Content varies based on player choices.",
+  "nodes": [
+    {
+      "node_id": "phone_intro",
+      "speaker": null,
+      "text": "Later that evening. You're sitting on the step outside Mama Achieng's kiosk, phone in hand. The sky is turning orange over the estate rooftops.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "sms_mum"
+    },
+    {
+      "node_id": "sms_mum",
+      "speaker": null,
+      "text": "[SMS from Mum]: Bibi amepokea. Asante sana, {player_name}. Kula vizuri.",
+      "text_sw": null,
+      "gloss": "Bibi received it. Thank you very much, {player_name}. Eat well.",
+      "expression": null,
+      "choices": null,
+      "next": "sms_jabali_branch"
+    },
+    {
+      "node_id": "sms_jabali_branch",
+      "speaker": null,
+      "text": "[SYSTEM: BRANCH on matatu_choice]",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": null,
+      "branches": {
+        "listen": "sms_jabali_listen",
+        "join": "sms_jabali_join",
+        "quiet": "sms_jabali_quiet"
+      }
+    },
+    {
+      "node_id": "sms_jabali_listen",
+      "speaker": null,
+      "text": "[SMS from Jabali]: Yo {player_name}! U were so quiet in the mat today lol. Deep thinker ama you were just sleeping? 😂 Anyway M-Pesa is legit bro check it out. Tutaongea.",
+      "text_sw": null,
+      "gloss": "We'll talk.",
+      "expression": null,
+      "choices": null,
+      "next": "sms_mama_branch"
+    },
+    {
+      "node_id": "sms_jabali_join",
+      "speaker": null,
+      "text": "[SMS from Jabali]: {player_name}! My guy! U told Mama Achieng STRAIGHT today 😂😂. Banks are shaking!! I knew u were smart. Holla anytime u need a free ride on Msafiri 😎",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "sms_mama_branch"
+    },
+    {
+      "node_id": "sms_jabali_quiet",
+      "speaker": null,
+      "text": "[SMS from Jabali]: Aye {player_name}, next time remove the earphones! Life is happening around u bro! But no stress. Msafiri doors are always open for u. Literally, the door doesn't close properly 😂",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "sms_mama_branch"
+    },
+    {
+      "node_id": "sms_mama_branch",
+      "speaker": null,
+      "text": "[SYSTEM: BRANCH on kiosk_choice]",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": null,
+      "branches": {
+        "help": "sms_mama_help",
+        "tease": "sms_mama_tease"
+      }
+    },
+    {
+      "node_id": "sms_mama_help",
+      "speaker": null,
+      "text": "[SMS from Mama Achieng']: {player_name}. Thank you for today. You have patience. Your mother raised you well. Come tomorrow — I will have mandazi for you. Don't tell anyone, I don't want a queue.",
+      "text_sw": null,
+      "gloss": "mandazi = sweet fried dough, like a doughnut",
+      "expression": null,
+      "choices": null,
+      "next": "phone_end"
+    },
+    {
+      "node_id": "sms_mama_tease",
+      "speaker": null,
+      "text": "[SMS from Mama Achieng']: {player_name}. I figured it out WITHOUT your help. But. Thank you for sitting there. Even company that laughs at you is still company. Next time bring manners.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "phone_end"
+    },
+    {
+      "node_id": "phone_end",
+      "speaker": null,
+      "text": "You smile at the phone. Somewhere across Nairobi, Bibi has her fare. Mama Achieng' has her M-Pesa. And you — you have a story to tell.",
+      "text_sw": null,
+      "gloss": null,
+      "expression": null,
+      "choices": null,
+      "next": "END_PHONE"
+    }
+  ]
+}
