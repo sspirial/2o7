@@ -758,3 +758,38 @@ button {
     display: none;
   }
 }
+
+#pz {
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(env(safe-area-inset-top, 0px) + 8px);
+  background: #0007;
+  border: 1px solid #fff4;
+  border-radius: 14px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  color: inherit;
+  display: none;
+}
+#bcr {
+  right: 22px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 122px);
+}
+#bcr.on {
+  background: #c0392b99;
+}
+.notice {
+  max-width: 34rem;
+  margin: 0;
+  color: #d8c9b2;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-left: 3px solid #4f9a5b;
+  padding-left: 0.8rem;
+}
+.go.ghost {
+  background: #26180f;
+  border: 1px solid #5a3a24;
+}

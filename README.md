@@ -40,6 +40,21 @@ These are illustrative game environments, not surveyed geographic maps.
 
 ## Test
 
+Install the dev dependencies once, then run the tests:
+
 ```powershell
+npm install
 npm test
 ```
+
+`game-core.test.js` covers the planning and rumour rules. `smoke.test.js` boots
+the page in jsdom with a stubbed renderer, builds all five locations and plays a
+few seconds of a night in each. Three.js is pinned to 0.128.0 there to match the
+CDN build, so any API newer than r128 (for example `CapsuleGeometry`) fails the
+test instead of crashing the live game.
+
+## Safety
+
+The title screen carries a content note, and the pause menu (Pause button, `P`
+or Esc) lists the Kenya Red Cross line (1199) and the Child Helpline (116), both
+free and open 24 hours.

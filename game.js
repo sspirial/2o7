@@ -19,6 +19,8 @@ const required = [
   "bs2",
   "js",
   "ar",
+  "pz",
+  "bcr",
 ];
 for (const id of required)
   if (!$(id)) throw new Error(`Missing required element: #${id}`);
@@ -33,8 +35,8 @@ try {
   );
   throw error;
 }
-R.setPixelRatio(Math.min(devicePixelRatio, touch ? 2 : 2.5));
-R.shadowMap.enabled = true;
+R.setPixelRatio(Math.min(devicePixelRatio, touch ? 1.5 : 2.5));
+R.shadowMap.enabled = !touch;
 R.shadowMap.type = T.PCFSoftShadowMap;
 R.outputEncoding = T.sRGBEncoding;
 R.toneMapping = T.ACESFilmicToneMapping;
@@ -309,12 +311,62 @@ function hitsCollider(x, z, radius = 0.45, npc = false) {
       z < box.z2 + radius,
   );
 }
-const locMat = (color, emissive = 0) =>
-  new T.MeshLambertMaterial({ color, emissive });
-function clearLocationMap() {
-  for (const o of locationMeshes) locationGroup.remove(o);
+const locMatCache = new Map();
+const locMat = (color, emissive = 0) => {
+  const key = `${color}-${emissive}`;
+  let m = locMatCache.get(key);
+  if (!m) {
+    m = new T.MeshLambertMaterial({ color, emissive });
+    locMatCache.set(key, m);
+  }
+  return m;
+};
+function removeLocationMeshes() {
+  for (const o of locationMeshes) {
+    locationGroup.remove(o);
+    o.geometry.dispose();
+  }
   locationMeshes.length = 0;
+}
+function clearLocationMap() {
+  removeLocationMeshes();
   locationColliders.length = 0;
+}
+// Scenery never moves, so bake every mesh of a location into one mesh per
+// material. This turns hundreds of draw calls into a handful on phones.
+function mergeLocationMeshes() {
+  const groups = new Map();
+  for (const o of locationMeshes) {
+    o.updateMatrix();
+    const g = (
+      o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone()
+    ).applyMatrix4(o.matrix);
+    let e = groups.get(o.material);
+    if (!e) groups.set(o.material, (e = { pos: [], nor: [] }));
+    e.pos.push(g.attributes.position.array);
+    e.nor.push(g.attributes.normal.array);
+    g.dispose();
+  }
+  removeLocationMeshes();
+  const join = (arrays) => {
+    const out = new Float32Array(arrays.reduce((n, a) => n + a.length, 0));
+    let i = 0;
+    for (const a of arrays) {
+      out.set(a, i);
+      i += a.length;
+    }
+    return out;
+  };
+  for (const [material, e] of groups) {
+    const geo = new T.BufferGeometry();
+    geo.setAttribute("position", new T.BufferAttribute(join(e.pos), 3));
+    geo.setAttribute("normal", new T.BufferAttribute(join(e.nor), 3));
+    const m = new T.Mesh(geo, material);
+    m.castShadow = true;
+    m.receiveShadow = true;
+    locationGroup.add(m);
+    locationMeshes.push(m);
+  }
 }
 function addRock(x, y, z, scale, color = 0x4b403c) {
   const o = locMk(new T.DodecahedronGeometry(1, 0), locMat(color), x, y, z);
@@ -479,18 +531,20 @@ function buildLocationMap(id) {
       addTree(-25 + rnd() * 25, -30 + rnd() * 60, 0x4b773a);
     for (const z of [-12, 0, 12]) {
       const boat = locMk(
-        new T.CapsuleGeometry(1, 5, 4, 8),
+        new T.SphereGeometry(1, 10, 8),
         locMat(0x6f3f2a),
         30,
         0.5,
         z,
       );
+      boat.scale.set(1, 3.5, 1);
       boat.rotation.z = Math.PI / 2;
       addCollider(26, 34, z - 1.2, z + 1.2);
     }
     addShack(-12, -13, 0x806344);
     addShack(-17, -19, 0x6f583e);
   }
+  mergeLocationMeshes();
 }
 const gun = new T.Mesh(B(0.09, 0.12, 0.45), M(0x3a2a20, 0x401a08));
 gun.position.set(0.25, -0.22, -0.55);
@@ -555,6 +609,7 @@ const WAVES = [
 const LOCATIONS = {
   nairobi: {
     name: "Nairobi · Mtaani Estate",
+    place: "Mtaani Estate",
     region: "Urban shelter",
     brief:
       "A crowded estate shelter near the capital. Keep the gates closed while neighbours coordinate food, water and safe passage.",
@@ -566,6 +621,7 @@ const LOCATIONS = {
   },
   rift_valley: {
     name: "Rift Valley · Kijani Route",
+    place: "Kijani Route",
     region: "Displacement route",
     brief:
       "Families are moving along a rural road. Keep a temporary shelter open until transport arrives.",
@@ -577,6 +633,7 @@ const LOCATIONS = {
   },
   western: {
     name: "Western Kenya · Amani Parish",
+    place: "Amani Parish",
     region: "Community mediation",
     brief:
       "Local elders and faith leaders are trying to keep several villages connected while rumours travel faster than help.",
@@ -588,6 +645,7 @@ const LOCATIONS = {
   },
   coast: {
     name: "Coast · Bahari Relief Hub",
+    place: "Bahari Relief Hub",
     region: "Relief hub",
     brief:
       "A transport and relief hub is receiving families from inland. Protect the stores and keep the convoy route clear.",
@@ -599,6 +657,7 @@ const LOCATIONS = {
   },
   nyanza: {
     name: "Nyanza · Lakeview Landing",
+    place: "Lakeview Landing",
     region: "Lakeside community",
     brief:
       "A lakeside landing has become a refuge. Boats, radios and volunteers are the only link to assistance.",
@@ -609,6 +668,7 @@ const LOCATIONS = {
     risk: "Water edge",
   },
 };
+const placeName = () => (LOCATIONS[S.location] || LOCATIONS.nairobi).place;
 const OPT = {
   b: ["Reinforce the barricade", "+30 barricade strength"],
   e: [
@@ -810,7 +870,7 @@ function startCinematic(kind, done) {
   const captions = {
     intro: "",
     fail: "The barricade falls. In the smoke and confusion, the shelter is lost. The aftermath is shown at a distance; the people are remembered, not displayed.",
-    win: "First light. The Red Cross convoy reaches Mtaani Estate. The gates open, and the families come out together.",
+    win: `First light. The Red Cross convoy reaches ${placeName()}. The gates open, and the families come out together.`,
   };
   const tone = kind == "fail" ? "fail" : kind == "win" ? "win" : "";
   cinematic = {
@@ -860,7 +920,7 @@ function reset() {
 function title() {
   $("hud").style.opacity = 0;
   ov(
-    `<div class="title-screen"><h1>2<span class="ring"></span>7</h1><button class="go" data-action="begin">Start</button></div>`,
+    `<div class="title-screen"><h1>2<span class="ring"></span>7</h1><p class="notice">2o7 is fiction set during Kenya’s 2007–08 post-election crisis. It deals with fear, displacement and loss, without graphic violence. You can pause at any time. If it affects you, talk to someone you trust, or call the Kenya Red Cross on 1199 or the Child Helpline on 116 (both free, 24 hours).</p><button class="go" data-action="begin">Start</button></div>`,
   );
 }
 function begin() {
@@ -957,6 +1017,18 @@ function resume() {
   S.st = "fight";
   lockPointer();
 }
+function pauseMenu() {
+  S.st = "pause";
+  if (document.exitPointerLock) document.exitPointerLock();
+  ov(
+    '<h2>Paused</h2><p class="h">You can stop at any time. If it affects you, talk to someone you trust, or call the Kenya Red Cross on 1199 or the Child Helpline on 116 (both free, 24 hours).</p><button class="go" data-action="resume">Resume</button> <button class="go ghost" data-action="quit">Back to start</button>',
+  );
+}
+function quitToStart() {
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  reset();
+  title();
+}
 function readBest() {
   try {
     return Number(localStorage.getItem("2o7b")) || 0;
@@ -981,7 +1053,7 @@ function end(w) {
   else snd(110, 1, "sawtooth", 0.2, 55);
   speak(
     w
-      ? "The convoy has reached Mtaani Estate. Thank you, neighbours. You kept each other safe."
+      ? `The convoy has reached ${placeName()}. Thank you, neighbours. You kept each other safe.`
       : "The shelter could not hold tonight. But every message you check and every neighbour you calm matters.",
     w ? "z" : "n",
     "en",
@@ -1254,9 +1326,10 @@ function hud() {
   $("bs").style.width = Math.max(0, S.safe) + "%";
   $("bw").style.width = S.wall + "%";
   $("st").style.width = Math.max(0, S.stamina) + "%";
+  $("pz").style.display = S.st == "fight" ? "block" : "none";
   $("hint").textContent =
     S.st == "fight"
-      ? `${K.crouch ? "CROUCH" : K.sprint && S.stamina > 1 ? "SPRINT" : "READY"}  ·  Shift sprint  ·  C crouch`
+      ? `${K.crouch ? "CROUCH" : K.sprint && S.stamina > 1 ? "SPRINT" : "READY"}  ·  ${touch ? "Push the stick far to sprint" : "Shift sprint  ·  C crouch  ·  P pause"}`
       : "";
   $("am").textContent =
     `Flares ${S.ammo}, spare ${S.sp}, attackers left ${S.en.length + S.q}` +
@@ -1344,6 +1417,7 @@ addEventListener("keydown", (e) => {
   if (e.code == "KeyM") $("mu").click();
   if (e.code == "KeyV") $("nv").click();
   if (e.code == "KeyR" && S.st == "fight") reload();
+  if (e.code == "KeyP" && S.st == "fight") pauseMenu();
 });
 addEventListener("keyup", (e) => {
   if (kc[e.code]) K[kc[e.code]] = 0;
@@ -1372,13 +1446,13 @@ document.addEventListener("click", (e) => {
   else if (action == "rumour-forward") rumour(true);
   else if (action == "rumour-check") rumour(false);
   else if (action == "select-location") selectLocation(target.dataset.location);
+  else if (action == "pause") {
+    if (S.st == "fight") pauseMenu();
+  } else if (action == "quit") quitToStart();
 });
 document.addEventListener("pointerlockchange", () => {
   if (!touch && S.st == "fight" && !document.pointerLockElement) {
-    S.st = "pause";
-    ov(
-      '<h2>Paused</h2><button class="go" data-action="resume">Resume</button>',
-    );
+    pauseMenu();
   }
 });
 if (touch) {
@@ -1390,6 +1464,11 @@ if (touch) {
   $("bs2").addEventListener("pointerdown", (e) => {
     e.preventDefault();
     shout();
+  });
+  $("bcr").addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    K.crouch = K.crouch ? 0 : 1;
+    $("bcr").classList.toggle("on", !!K.crouch);
   });
   const cl = (v) => Math.max(-1, Math.min(1, v));
   addEventListener("touchstart", (e) => {
@@ -1412,6 +1491,7 @@ if (touch) {
       if (t.identifier === jid) {
         jx = cl((t.clientX - jo[0]) / 50);
         jy = cl((t.clientY - jo[1]) / 50);
+        K.sprint = Math.hypot(t.clientX - jo[0], t.clientY - jo[1]) > 90 ? 1 : 0;
       } else if (t.identifier === lid) {
         yaw -= (t.clientX - lp[0]) * 0.006;
         pitch = Math.max(
@@ -1427,6 +1507,7 @@ if (touch) {
       if (t.identifier === jid) {
         jid = null;
         jx = jy = 0;
+        K.sprint = 0;
         $("js").style.display = "none";
       }
       if (t.identifier === lid) lid = null;
@@ -1438,10 +1519,7 @@ if (touch) {
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && window.speechSynthesis) speechSynthesis.cancel();
   if (document.hidden && S.st == "fight") {
-    S.st = "pause";
-    ov(
-      '<h2>Paused</h2><button class="go" data-action="resume">Resume</button>',
-    );
+    pauseMenu();
   }
 });
 $("mu").addEventListener("click", () => {
