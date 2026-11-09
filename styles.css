@@ -426,7 +426,7 @@ button {
 #hint {
   position: absolute;
   left: 50%;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 58px);
   transform: translateX(-50%);
   padding: 5px 10px;
   border: 1px solid #ffffff24;
@@ -437,6 +437,11 @@ button {
   letter-spacing: 0.1em;
   white-space: nowrap;
   opacity: 0.8;
+}
+@media (pointer: coarse) {
+  #hint {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 194px);
+  }
 }
 #bars u {
   display: block;
@@ -792,4 +797,228 @@ button {
 .go.ghost {
   background: #26180f;
   border: 1px solid #5a3a24;
+}
+
+/* Cinematic game presentation */
+:root {
+  --bone: #f5f7ff;
+  --mut: #b7c5d9;
+  --red: #ff5b4d;
+  --grn: #62e5a0;
+  --cyan: #62d9ff;
+}
+
+body {
+  background:
+    radial-gradient(circle at 75% 15%, #173b57 0, transparent 34%),
+    #080d18;
+}
+
+#c {
+  filter: saturate(1.18) contrast(1.08) brightness(0.94);
+}
+
+#vg {
+  background:
+    linear-gradient(180deg, #0812251c 0%, transparent 42%, #03061180 100%),
+    radial-gradient(ellipse at center, transparent 42%, #0508149e 100%);
+}
+
+#hud::before,
+#hud::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+#hud::before {
+  inset: 0;
+  border: 1px solid #ffffff12;
+  clip-path: polygon(0 0, 22% 0, 22% 2px, 0 2px, 0 18%, 2px 18%, 2px 0);
+}
+
+#top,
+#am,
+#bars {
+  text-shadow: 0 2px 10px #000c;
+}
+
+#top {
+  padding: 8px 12px;
+  border: 1px solid #ffffff26;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #101c31dd, #111827aa);
+  box-shadow: 0 8px 24px #0005;
+  letter-spacing: 0.04em;
+}
+
+#am {
+  top: calc(env(safe-area-inset-top, 0px) + 52px);
+  padding-left: 4px;
+  color: #d7e5f7;
+}
+
+#bars {
+  padding: 10px 12px 4px;
+  border: 1px solid #ffffff26;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #101c31dd, #111827aa);
+  box-shadow: 0 8px 24px #0005;
+}
+
+#bars i {
+  height: 9px;
+  background: #050914cc;
+  border: 1px solid #ffffff18;
+}
+
+#bars u {
+  background: linear-gradient(90deg, #42c97b, #b4f56b);
+}
+
+#bw {
+  background: linear-gradient(90deg, #ee8b3f, #ffd36b);
+}
+
+#bars .stamina u {
+  background: linear-gradient(90deg, #35bfff, #7ff7e3);
+}
+
+#hint {
+  border-color: #62d9ff66;
+  background: #071526d9;
+  color: #d5f7ff;
+  box-shadow: 0 4px 20px #0008, 0 0 22px #35bfff22;
+}
+
+#pz,
+#mu,
+#nv {
+  border-color: #ffffff3d;
+  background: linear-gradient(135deg, #16243be8, #0b1220e8);
+  box-shadow: 0 5px 18px #0008;
+}
+
+#pz:hover,
+#mu:hover,
+#nv:hover {
+  border-color: var(--cyan);
+  color: #fff;
+}
+
+.title-screen {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 18%, #1c9ccc38, transparent 28%),
+    radial-gradient(circle at 18% 72%, #ff60402e, transparent 32%),
+    linear-gradient(135deg, #0b1425f2, #1d1424f4 58%, #351b24f2);
+  border: 1px solid #68dfff55;
+  box-shadow:
+    0 24px 90px #000c,
+    0 0 0 1px #ff60401c inset,
+    0 0 70px #1f9dcc18;
+}
+
+.title-screen::after {
+  content: "FIELD NETWORK  //  NIGHT WATCH  //  2008";
+  position: absolute;
+  right: 28px;
+  top: 24px;
+  color: #9ed7e899;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+}
+
+.title-screen h1 {
+  color: #f7fbff;
+  text-shadow:
+    5px 5px 0 #ff5b4d,
+    0 0 28px #62d9ff99,
+    0 12px 40px #000d;
+}
+
+.title-screen .ring {
+  border-color: #62d9ff;
+  box-shadow: 0 0 18px #62d9ff;
+}
+
+.title-screen .go,
+.go {
+  background: linear-gradient(135deg, #ff654f, #db3156);
+  border: 1px solid #ffb09a99;
+  box-shadow: 0 8px 24px #e63d4d55, 0 0 0 1px #fff2 inset;
+  transition: transform 0.18s, filter 0.18s;
+}
+
+.title-screen .go:hover,
+.go:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+.notice {
+  color: #c5d5e8;
+  border-left-color: var(--cyan);
+}
+
+#ov.control-overlay {
+  background:
+    linear-gradient(180deg, #07122555, transparent 28%, #030610dd 100%),
+    radial-gradient(circle at 70% 40%, #1c9ccc18, transparent 34%);
+  backdrop-filter: blur(4px);
+}
+
+.control-overlay .control-head {
+  border-color: #62d9ff55;
+  background: linear-gradient(90deg, #0b172be8, #1a1730dd 62%, #321a2be8);
+  box-shadow: 0 10px 36px #0008, 0 0 26px #22a8d91a;
+}
+
+.control-overlay .control-head h2 {
+  color: #f7fbff;
+  text-shadow: 0 0 18px #62d9ff55;
+}
+
+.control-overlay .eyebrow,
+.control-overlay .location-card small {
+  color: #62d9ff;
+}
+
+.control-overlay .control-summary {
+  border-color: #ff654f88;
+  background: linear-gradient(135deg, #192640ee, #291a32ee);
+}
+
+.control-overlay .summary-icon {
+  background: linear-gradient(135deg, #ff654f, #d52e58);
+  box-shadow: 0 0 20px #ff654f55;
+}
+
+.control-overlay .location-card {
+  background: linear-gradient(160deg, #13223aee, #101522ee);
+  border-color: #7aa1c955;
+  box-shadow: 0 10px 28px #0007;
+}
+
+.control-overlay .location-card:nth-child(2n) {
+  background: linear-gradient(160deg, #172b3bee, #121827ee);
+}
+
+.control-overlay .location-card:hover,
+.control-overlay .location-card:focus-visible {
+  border-color: #62d9ff;
+  background: linear-gradient(160deg, #1d4660f2, #19213bf2);
+  box-shadow: 0 0 26px #35bfff44, 0 12px 28px #0008;
+}
+
+.control-overlay .location-icon {
+  border-color: #62d9ff88;
+  color: #8be8ff;
+  background: #071526;
+}
+
+.control-overlay .location-arrow {
+  color: #ff8b76;
 }

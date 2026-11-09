@@ -375,9 +375,26 @@ function addRock(x, y, z, scale, color = 0x4b403c) {
   addCollider(x - scale, x + scale, z - scale, z + scale);
 }
 function addShack(x, z, color) {
+  const trim = locMat(0xb9865d),
+    dark = locMat(0x241c1a),
+    glass = locMat(0x79c4cf, 0x173b4a),
+    roof = locMat(0x514039);
   locMk(B(3.2, 2.2, 2.8), locMat(color), x, 1.1, z);
-  locMk(B(3.5, 0.25, 3.1), locMat(0x514039), x, 2.35, z);
-  locMk(B(0.9, 1.4, 0.08), locMat(0x241c1a), x, 0.8, z + 1.42);
+  locMk(B(3.5, 0.25, 3.1), roof, x, 2.35, z);
+  locMk(B(3.7, 0.12, 0.16), trim, x, 2.3, z + 1.48);
+  locMk(B(3.7, 0.12, 0.16), trim, x, 2.3, z - 1.48);
+  locMk(B(0.9, 1.4, 0.08), dark, x, 0.8, z + 1.42);
+  locMk(B(1.08, 0.08, 0.1), trim, x, 1.52, z + 1.48);
+  locMk(B(0.08, 1.55, 0.1), trim, x - 0.54, 0.78, z + 1.48);
+  locMk(B(0.08, 1.55, 0.1), trim, x + 0.54, 0.78, z + 1.48);
+  locMk(B(0.08, 0.08, 0.12), locMat(0xd7b56c, 0xff9a42), x + 0.28, 0.8, z + 1.54);
+  for (const wx of [-1.05, 1.05]) {
+    locMk(B(0.68, 0.7, 0.08), glass, x + wx, 1.32, z + 1.43);
+    locMk(B(0.76, 0.07, 0.1), trim, x + wx, 1.32, z + 1.49);
+    locMk(B(0.07, 0.78, 0.1), trim, x + wx, 1.32, z + 1.49);
+  }
+  for (const sx of [-1, 1])
+    locMk(B(0.08, 1.8, 2.5), trim, x + sx * 1.57, 1.1, z);
   addCollider(x - 1.6, x + 1.6, z - 1.4, z + 1.4);
 }
 function addTree(x, z, color = 0x3f632f) {
@@ -388,14 +405,31 @@ function addTree(x, z, color = 0x3f632f) {
     1.4,
     z,
   );
-  const crown = locMk(
-    new T.SphereGeometry(1.7, 8, 6),
-    locMat(color),
-    x,
-    3.2,
+  locMk(
+    new T.CylinderGeometry(0.08, 0.16, 1.1, 5),
+    locMat(0x3c2b20),
+    x - 0.5,
+    2.35,
     z,
-  );
-  crown.scale.y = 0.65;
+  ).rotation.z = -0.5;
+  const foliage = locMat(color),
+    highlight = locMat(new T.Color(color).offsetHSL(0, 0.04, 0.1).getHex());
+  for (const [ox, oy, oz, s] of [
+    [0, 3.25, 0, 1.25],
+    [-0.8, 3.05, 0.1, 0.9],
+    [0.8, 3.05, -0.1, 0.95],
+    [0, 3.75, 0.05, 0.75],
+  ]) {
+    const crown = locMk(
+      new T.SphereGeometry(s, 10, 7),
+      oy > 3.5 ? highlight : foliage,
+      x + ox,
+      oy,
+      z + oz,
+    );
+    crown.scale.y = 0.7;
+  }
+  locMk(B(0.8, 0.08, 0.8), locMat(0x8b6a43), x, 0.05, z);
   addCollider(x - 0.8, x + 0.8, z - 0.8, z + 0.8);
 }
 function addObjectiveStructure(id) {
@@ -409,7 +443,31 @@ function addObjectiveStructure(id) {
   const [wall, roof] = styles[id];
   locMk(B(10, 2.8, 6), locMat(wall), 0, 1.4, 0);
   locMk(B(11, 0.4, 7), locMat(roof), 0, 3, 0);
+  locMk(B(11.6, 0.18, 7.3), locMat(0x211c28), 0, 3.28, 0);
+  for (let x = -4.5; x <= 4.5; x += 1.5)
+    locMk(B(0.08, 0.12, 6.8), locMat(0xd0a36d), x, 3.5, 0);
+  locMk(B(11.4, 0.16, 0.18), locMat(0xf0d4a0), 0, 2.72, 3.08);
+  locMk(B(11.4, 0.16, 0.18), locMat(0x6d4636), 0, 2.72, -3.08);
+  locMk(B(12.2, 0.22, 1.4), locMat(0x6d302c), 0, 2.42, 3.75);
+  for (const x of [-5.2, 5.2])
+    locMk(
+      new T.CylinderGeometry(0.13, 0.18, 2.8, 8),
+      locMat(0x372a2b),
+      x,
+      1.4,
+      3.72,
+    );
   locMk(B(1.4, 1.9, 0.1), locMat(0xffd9a0, 0xffb060), 0, 1, 3.05);
+  locMk(B(1.65, 2.15, 0.12), locMat(0x41251f), 0, 1, 3.11);
+  locMk(B(1.38, 1.88, 0.14), locMat(0xffd9a0, 0xffb060), 0, 1, 3.18);
+  locMk(B(3.2, 0.42, 0.16), locMat(0xd8b374), 0, 2.22, 3.2);
+  locMk(B(2.6, 0.08, 0.08), locMat(0x4a2d24), 0, 2.48, 3.2);
+  for (const x of [-3.6, 3.6]) {
+    locMk(B(1.2, 1.1, 0.12), locMat(0x79c4cf, 0x173b4a), x, 1.55, 3.08);
+    locMk(B(1.35, 0.1, 0.16), locMat(0xf0d4a0), x, 1.55, 3.16);
+    locMk(B(0.1, 1.2, 0.16), locMat(0xf0d4a0), x, 1.55, 3.16);
+    locMk(B(0.22, 0.55, 0.18), locMat(0xffb13b, 0xff681f), x, 2.35, 3.2);
+  }
   for (const x of [-4.4, 4.4])
     locMk(B(1, 0.9, 0.1), locMat(0xffd9a0, 0xffa040), x, 1.6, 3.02);
   addCollider(-5, 5, -3, 3, false);
