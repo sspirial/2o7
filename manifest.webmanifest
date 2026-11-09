@@ -1,0 +1,19 @@
+{
+  "name": "2o7: Night Watch",
+  "short_name": "2o7",
+  "description": "Hold a shelter through the night in Kenya, 2008.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#080d18",
+  "theme_color": "#0b1425",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

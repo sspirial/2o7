@@ -7,6 +7,12 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
     <title>2o7</title>
+    <meta name="theme-color" content="#0b1425" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
     <meta
       name="description"
       content="2o7: a free browser game about holding a shelter through the night in Kenya, 2008. Play on your phone."
@@ -39,6 +45,7 @@
     <div id="js"></div>
     <div id="ar" style="display: none">▲</div>
     <button id="mu">Sound on</button><button id="nv">Voice on</button>
+    <button id="install" type="button">Install 2o7</button>
     <button id="pz" data-action="pause">Pause</button>
     <div id="cap"></div>
     <div id="vg"></div>
@@ -53,6 +60,7 @@
       </button>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="pwa.js?v=20261109-1500"></script>
     <script src="game-core.js?v=20261109-1200"></script>
     <script src="game.js?v=20261109-1400" defer></script>
   </body>

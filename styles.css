@@ -316,6 +316,23 @@ button {
   padding: 4px 10px;
   font-size: 0.75rem;
 }
+#install {
+  position: fixed;
+  z-index: 3;
+  right: 12px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+  padding: 5px 11px;
+  border: 1px solid #62d9ff88;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #162e4be8, #451d3be8);
+  box-shadow: 0 5px 18px #0008, 0 0 18px #35bfff22;
+  color: #e8faff;
+  font-size: 0.75rem;
+}
+#install:hover {
+  border-color: #fff;
+  filter: brightness(1.15);
+}
 #cap {
   position: fixed;
   z-index: 6;
