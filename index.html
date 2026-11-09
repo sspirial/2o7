@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>2o7</title>
+    <meta
+      name="description"
+      content="2o7: a free browser game about holding a shelter through the night in Kenya, 2008. Play on your phone."
+    />
+    <meta property="og:title" content="2o7" />
+    <meta
+      property="og:description"
+      content="Hold a shelter through the night in Kenya, 2008. Talk first, flares second."
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&display=swap"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <div id="hud">
+      <div id="top"><span id="wv"></span></div>
+      <div id="am"></div>
+      <div id="bars">
+        Shelter safety<i><u id="bs"></u></i>Barricade<i><u id="bw"></u></i
+        >Stamina<i class="stamina"><u id="st"></u></i>
+      </div>
+      <div id="cx"></div>
+      <div id="msg"></div>
+      <div id="hint"></div>
+    </div>
+    <div id="fl"></div>
+    <div id="js"></div>
+    <div id="ar" style="display: none">▲</div>
+    <button id="mu">Sound on</button><button id="nv">Voice on</button>
+    <div id="cap"></div>
+    <div id="vg"></div>
+    <button class="b" id="bf">Flare</button
+    ><button class="b" id="bs2">Shout</button>
+    <div id="ov"></div>
+    <div id="cin" aria-live="polite">
+      <div id="cinText"></div>
+      <button class="cinSkip" data-action="skip-cinematic">
+        Skip cinematic
+      </button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="game-core.js?v=20261109-0427"></script>
+    <script src="game.js?v=20261109-0427" defer></script>
+  </body>
+</html>
